@@ -1,3 +1,7 @@
+SHELL := /bin/bash
+EXEC_PHP := docker compose exec -it php
+APP_DIR :=
+
 help:
 	@awk ' \
 		/^##@/ { \
@@ -63,6 +67,14 @@ octane-up: ## Запустить Octane
 octane-reload: ## Перезагрузить Octane
 	$(MAKE) artisan cmd="octane:reload"
 .PHONY: octane-reload
+
+lint: ## Проверить code style (Pint)
+	$(EXEC_PHP) $(APP_DIR)vendor/bin/pint --test $(APP_DIR)app $(APP_DIR)tests
+.PHONY: lint
+
+fix-lint: ## Исправить code style (Pint)
+	$(EXEC_PHP) $(APP_DIR)vendor/bin/pint $(APP_DIR)app $(APP_DIR)tests
+.PHONY: fix-lint
 
 artisan: ## Выполнить artisan команду / <make artisan cmd="migrate">
 	docker compose exec php php artisan $(cmd)
