@@ -9,8 +9,6 @@ RUN apt-get update \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
         pdo_mysql mbstring zip bcmath gd exif pcntl sockets \
-    && pecl install swoole \
-    && docker-php-ext-enable swoole \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
