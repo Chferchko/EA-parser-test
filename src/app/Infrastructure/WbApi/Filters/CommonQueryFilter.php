@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Api;
+namespace App\Infrastructure\WbApi\Filters;
+
+use App\Infrastructure\WbApi\Enums\FilterOption;
 
 final readonly class CommonQueryFilter implements QueryFilterInterface
 {

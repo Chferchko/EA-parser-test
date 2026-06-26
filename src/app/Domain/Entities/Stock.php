@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Domain\Entities;
 
-final readonly class Stock
+use App\Domain\Contracts\WbEntityInterface;
+
+final readonly class Stock implements WbEntityInterface
 {
     public function __construct(
         public \DateTimeImmutable $date,
         public \DateTimeImmutable $lastChangeDate,
         public string $supplierArticle,
-        public string $techSize,
+        public ?string $techSize,
         public int $barcode,
         public int $quantity,
         public bool $isSupply,
@@ -27,4 +29,9 @@ final readonly class Stock
         public int $price,
         public int $discount,
     ) {}
+
+    public function uniqueKey(): string
+    {
+        return (string) $this->barcode;
+    }
 }

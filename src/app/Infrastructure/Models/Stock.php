@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Infrastructure\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,8 +41,8 @@ final class Stock extends Model
     protected function casts(): array
     {
         return [
-            'date' => 'date',
-            'last_change_date' => 'date',
+            'date' => 'immutable_date',
+            'last_change_date' => 'immutable_date',
             'barcode' => 'integer',
             'quantity' => 'integer',
             'is_supply' => 'boolean',

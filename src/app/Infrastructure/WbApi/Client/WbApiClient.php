@@ -2,8 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Api;
+namespace App\Infrastructure\WbApi\Client;
 
+use App\Infrastructure\WbApi\Auth\AuthStrategyInterface;
+use App\Infrastructure\WbApi\Enums\WbApiEndpoint;
+use App\Infrastructure\WbApi\Enums\WbResponseKey;
+use App\Infrastructure\WbApi\Filters\QueryFilterInterface;
+use App\Infrastructure\WbApi\Pagination\Pagination;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Factory as HttpFactory;
 use Illuminate\Http\Client\RequestException;
@@ -14,7 +19,7 @@ final readonly class WbApiClient
     public function __construct(
         private HttpFactory $http,
         private string $baseUrl,
-        private AuthStrategy $authStrategy,
+        private AuthStrategyInterface $authStrategy,
     ) {}
 
     /**

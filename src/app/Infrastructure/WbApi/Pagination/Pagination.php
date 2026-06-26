@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Api;
+namespace App\Infrastructure\WbApi\Pagination;
+
+use App\Infrastructure\WbApi\Enums\PaginationOption;
 
 final readonly class Pagination
 {
@@ -12,10 +14,7 @@ final readonly class Pagination
     ) {}
 
     /**
-     * @return array{
-     *     page: string,
-     *     limit: string
-     * }
+     * @return array{page: string, limit: string}
      */
     public function toQuery(): array
     {

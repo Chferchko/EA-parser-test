@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('last_change_date');
             $table->string('supplier_article')->index();
             $table->string('tech_size')->nullable();
-            $table->unsignedBigInteger('barcode')->unique();
+            $table->unsignedBigInteger('barcode');
             $table->integer('quantity');
             $table->boolean('is_supply');
             $table->boolean('is_realization');
@@ -32,6 +32,7 @@ return new class extends Migration
             $table->unsignedBigInteger('sc_code')->index();
             $table->unsignedInteger('price');
             $table->unsignedSmallInteger('discount');
+            $table->unique(['barcode', 'warehouse_name']);
             $table->timestamps();
         });
     }

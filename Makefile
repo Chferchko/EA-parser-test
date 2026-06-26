@@ -1,6 +1,7 @@
 SHELL := /bin/bash
 EXEC_PHP := docker compose exec -it php
 APP_DIR :=
+limit_arg := $(if $(limit), --limit=$(limit),)
 
 help:
 	@awk ' \
@@ -79,6 +80,24 @@ fix-lint: ## Исправить code style (Pint)
 artisan: ## Выполнить artisan команду / <make artisan cmd="migrate">
 	docker compose exec php php artisan $(cmd)
 .PHONY: artisan
+
+##@ WB-api
+
+wb-sync-stocks: ## Синхронизировать stocks из WB API
+	$(MAKE) artisan cmd="wb:sync-stocks$(limit_arg)"
+.PHONY: wb-sync-stocks
+
+wb-sync-incomes: ## Синхронизировать incomes из WB API
+	$(MAKE) artisan cmd="wb:sync-incomes$(limit_arg)"
+.PHONY: wb-sync-incomes
+
+wb-sync-sales: ## Синхронизировать sales из WB API
+	$(MAKE) artisan cmd="wb:sync-sales$(limit_arg)"
+.PHONY: wb-sync-sales
+
+wb-sync-orders: ## Синхронизировать orders из WB API
+	$(MAKE) artisan cmd="wb:sync-orders$(limit_arg)"
+.PHONY: wb-sync-orders
 
 ##@ Monitoring
 
