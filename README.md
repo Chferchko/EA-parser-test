@@ -33,3 +33,13 @@ http://localhost:8000
 ```bash
   make help
 ```
+---
+### Доступы
+
+- `Adminer` панель ДБ: `http://89.108.71.133:8080`
+- `Adminer` сервер ДБ: `mysql`
+- Database: `parser_test`
+- User: `reviewer`
+- Password: `q^sei~BAxP0`
+- Host: `89.108.71.133`
+- Port: `3306`
