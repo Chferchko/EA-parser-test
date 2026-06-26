@@ -49,3 +49,9 @@ http://localhost:8000
 - Password: `q^sei~BAxP0`
 - Host: `89.108.71.133`
 - Port: `3306`
+
+### Таблицы
+- `stocks`
+- `incomes`
+- `orders`
+- `sales`
