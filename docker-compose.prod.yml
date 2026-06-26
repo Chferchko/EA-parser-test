@@ -1,0 +1,60 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: parser-test_php_prod
+    working_dir: /var/www/parser-test/src
+    restart: unless-stopped
+    env_file:
+      - ./src/.env
+    volumes:
+      - ./:/var/www/parser-test
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: >
+      sh -lc "
+      composer install --no-dev --optimize-autoloader &&
+      php artisan config:clear &&
+      php artisan cache:clear &&
+      php artisan migrate --force &&
+      php artisan octane:start --server=swoole --host=0.0.0.0 --port=8000
+      "
+
+  mysql:
+    image: mysql:8.0
+    container_name: parser-test_mysql_prod
+    restart: unless-stopped
+    ports:
+      - "${DB_EXTERNAL_PORT:-3306}:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_REVIEWER_USER: ${MYSQL_REVIEWER_USER}
+      MYSQL_REVIEWER_PASSWORD: ${MYSQL_REVIEWER_PASSWORD}
+    volumes:
+      - mysql_prod_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  adminer:
+    image: adminer:5
+    container_name: parser-test_adminer_prod
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    ports:
+      - "${ADMINER_PORT:-8080}:8080"
+
+volumes:
+  mysql_prod_data:

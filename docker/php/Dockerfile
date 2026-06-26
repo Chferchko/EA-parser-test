@@ -2,7 +2,7 @@ FROM php:8.4-cli
 
 RUN apt-get update \
     && apt-get install -y \
-        git unzip curl \
+        git unzip curl default-mysql-client \
         libzip-dev libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
         libonig-dev libxml2-dev \
         libssl-dev \
